@@ -7,6 +7,7 @@
     "migrate": "cd ./src && npx sequelize-cli db:migrate && cd ../",
     "seeder": "cd ./src && npx sequelize-cli db:seed:all && cd ../",
     "undo-migration": "cd ./src && npx sequelize-cli db:migrate:undo && cd ../",
+    "undo-migration-all": "cd ./src && npx sequelize-cli db:migrate:undo:all && cd ../",
     "start": "nodemon ./src/server.js"
   },
   "keywords": [],

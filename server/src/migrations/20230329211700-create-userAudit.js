@@ -22,7 +22,7 @@ module.exports = {
                 type: Sequelize.STRING
             },
             phone_number: {
-                type: Sequelize.DECIMAL
+                type: Sequelize.STRING
             },
             birth_date: {
                 type: Sequelize.DATE
@@ -57,5 +57,8 @@ module.exports = {
                 type: Sequelize.DATE
             }
         })
-    }
+    },
+    async down(queryInterface, Sequelize) {
+        await queryInterface.dropTable('user_audits');
+      }
 }

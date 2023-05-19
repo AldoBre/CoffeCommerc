@@ -7,7 +7,7 @@ module.exports = {
         type: Sequelize.STRING
     })
     await queryInterface.addColumn('users', 'phone_number', {
-        type: Sequelize.DECIMAL
+        type: Sequelize.STRING
     })
     await queryInterface.addColumn('users', 'birth_date', {
         type: Sequelize.DATE
