@@ -341,8 +341,8 @@ export default {
 		userInfo:[],
 		userType: "",
 		openModal: false,
-    showPassword: false,
-    errors: [],
+		showPassword: false,
+		errors: [],
 		showModalUser: false
 
 	}),

@@ -1,6 +1,7 @@
 const { User, UserAudit } = require('../models')
 const UserService = require('../services/user.service')
 const jwt = require('jsonwebtoken');
+const moment = require('moment');
 const yup = require('yup');
 const { sign } = require("jsonwebtoken")
 const configuration = require('../utils/configuration')
@@ -56,15 +57,20 @@ module.exports = class UserController {
             expiresIn
         })
 
-        return response.json({ ...user, token})
+        return response.json({token})
     }
 
     async getAll(request, response) {
         const users = await User.findAll()
-
-        response.json({
-            users
-        })
+    
+        const formattedUsers = users.map(users => {
+            return {
+              ...users.toJSON(),
+              createdAt: moment(users.createdAt).format('DD/MM/YYYY')
+            };
+          });
+          
+          response.json({ users: formattedUsers});
     }
 
     async findOne(request, response) {
@@ -210,15 +216,11 @@ module.exports = class UserController {
 
     async patch(request, response) {
 
-        const { name, email, cpf, phone_number, birth_date, password, age} = request.body
+        const { name, email, phone_number} = request.body
      
 
         const isNameValid = name
             ? userService.isNameValid(name)
-            : true
-
-        const isEmailValid = email
-            ? userService.isNameValid(email)
             : true
 
             if (!isNameValid) {

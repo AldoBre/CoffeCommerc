@@ -29,9 +29,10 @@ app.delete('/admin/products/:id', authUserToken, refreshToken,productController.
 
 
 /* User Routes */
+app.get('/user/:id', authUserToken,userController.findOne)
+app.patch('/user/:id', authUserToken,userController.patch)
 app.get('/products/list',productController.getAllProducts)
 app.post('/register', userController.create)
-app.put('/user/:id', userController.update)
 app.post('/login', userController.loginUser)
 app.post('/logintoken', userController.loginToken)
 

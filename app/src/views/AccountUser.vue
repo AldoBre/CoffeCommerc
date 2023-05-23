@@ -7,25 +7,25 @@
         <div class="flex flex-col gap-4 max-sm:order-2 ">
             <div class="divInputGap">
                 <legend class="legendText">Nome</legend>
-                <input class="inputStyleSettings paddingInput " type="text" value="NOME">
+                <input :disabled="!editing" class="inputStyleSettings paddingInput " type="text" :value="userInfo.name">
             </div>
             <div class="divInputGap">
                 <legend class="legendText">Telefone</legend>
-                <input class="inputStyleSettings" type="text" value="NOME">
+                <input :disabled="!editing" class="inputStyleSettings" type="text" :value="userInfo.phone_number">
             </div>
             <div class="divInputGap">
                 <legend class="legendText">Email</legend>
-                <input class="inputStyleSettings" type="email" value="NOME">
+                <input :disabled="!editing" class="inputStyleSettings" type="email" :value="userInfo.email">
             </div>
-            <div class="divInputGap "> 
-                <legend class="legendText">Aniversário</legend>
-                <input class="w-3/4 p-1 rounded-lg shadow-sm shadow-gray-400  " type="date" value="NOME">
+            <div class="flex justify-center gap-3">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="toggleEditing">{{ editing ? 'Cancelar' : 'Alterar Dados' }}</button>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" v-if="editing == true">Salvar</button>
             </div>
         </div>
         <div class=" flex justify-center max-sm:order-1">
             <div class="w-2/3  flex flex-col items-center ">
                 <img class="border2 borderImg shadow-sm shadow-gray-400  border-opacity-5" src="../../public/img/icons/cafe-torrado.jpeg" alt="">
-                <legend>Alterar Foto</legend>
+                <button class="bg-blue-500 mt-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" @click="toggleEditingPhoto">{{ editing ? 'Opa' : 'Alterar Foto' }}</button>
             </div>
         </div>
     </div>
@@ -34,10 +34,41 @@
 </template>
 
 <script>
+import axios from "../plugins/axios";
 export default {
+    data(){
+        return{
+            userId:'',
+            editing: false,
+            userInfo: [],
+            errors: [],
+        }
+    },
+    methods:{
+        getUser(){
+            const token = localStorage.getItem("token");
+            const decodedToken = JSON.parse(atob(token.split(".")[1]));
+            this.userId = decodedToken.userId;
+            axios.get(`/user/${this.userId}`, {
+					headers: { Authorization: `Bearer ${token}` },
+				})
+                .then((response) => {
+                    this.userInfo = response.data
+                    console.log(this.userInfo)
+                    
+                })
+        },
+        toggleEditing() {
+            this.editing = !this.editing;
+        }
 
+    },
+    created(){
+        this.getUser()
+    }
 }
 </script>
+
 
 <style scoped>
 .border2{

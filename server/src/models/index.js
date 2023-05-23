@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
 const User = require('./user.model')
 const Product = require('./product.model')
+const Company = require('./company.model')
 const UserAudit = require('./userAudit.model')
 const configuration = require('../utils/configuration')
 
@@ -11,7 +12,8 @@ const database = {
     sequelize,
     User: User(sequelize, Sequelize),
     Product: Product(sequelize, Sequelize),
-    UserAudit: UserAudit(sequelize, Sequelize)
+    UserAudit: UserAudit(sequelize, Sequelize),
+    Company: Company(sequelize, Sequelize),
 }
 
 module.exports = database
